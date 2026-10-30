@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX PERFORMANCE ATHLETICS | Technical Sportswear Showcase</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        apex: {
+                            black: '#0A0C10',
+                            card: '#131722',
+                            border: '#202738',
+                            neon: '#00FF87',     // Hyper Cyan / Lime
+                            cyan: '#00F0FF',     // Electric Cyan
+                            muted: '#8A99AD',
+                            glass: 'rgba(19, 23, 34, 0.75)'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Outfit', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0A0C10;
+            color: #E2E8F0;
+        }
+
+        /* Outline Typography Class */
+        .text-stroke-outline {
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+            color: transparent;
+        }
+
+        .text-stroke-outline-neon {
+            -webkit-text-stroke: 1.5px #00FF87;
+            color: transparent;
+        }
+
+        /* Glassmorphism & Custom Accents */
+        .glass-header {
+            background: rgba(10, 12, 16, 0.88);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(19, 23, 34, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .bg-tech-grid {
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0C10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #202738;
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00FF87;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* SCROLL REVEAL & UI ANIMATION CLASSES */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-element.reveal-left {
+            transform: translateX(-40px);
+        }
+
+        .reveal-element.reveal-right {
+            transform: translateX(40px);
+        }
+
+        .reveal-element.reveal-scale {
+            transform: scale(0.92);
+        }
+
+        .reveal-element.active {
+            opacity: 1;
+            transform: translateY(0) translateX(0) scale(1);
+        }
+
+        /* Hover Tilt & Card Glows */
+        .tilt-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .tilt-card:hover {
+            transform: translateY(-6px) rotateX(2deg) rotateY(-1deg);
+            box-shadow: 0 12px 30px -10px rgba(0, 255, 135, 0.18);
+            border-color: rgba(0, 255, 135, 0.6);
+        }
+
+        /* Modal Pop Animation */
+        .modal-anim {
+            opacity: 0;
+            transform: scale(0.92) translateY(20px);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-active .modal-anim {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Reduced Motion Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-element {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+            .tilt-card:hover {
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-apex-black text-slate-100 selection:bg-apex-neon selection:text-black overflow-x-hidden">
+
+    <!-- ANNOUNCEMENT BANNER -->
+    <div class="bg-gradient-to-r from-apex-neon via-apex-cyan to-apex-neon bg-[length:200%_auto] animate-pulse text-slate-950 text-[11px] sm:text-xs font-black uppercase tracking-widest py-2 px-4 text-center flex justify-between items-center px-4 sm:px-8">
+        <span class="hidden md:inline"><i class="fa-solid fa-atom mr-1"></i> APEX LABS: SS-26 HIGH-ALTITUDE COMPRESSION LINE SHOWCASE</span>
+        <span class="mx-auto md:mx-0 font-extrabold"><i class="fa-solid fa-location-crosshairs mr-1"></i> VISIT OUR FLAGSHIP EXPERIMENTAL STORE IN TOWN</span>
+        <a href="#store" class="hidden sm:inline-flex items-center hover:opacity-80 underline font-bold">STORES <i class="fa-solid fa-chevron-right text-[10px] ml-1"></i></a>
+    </div>
+
+    <!-- MAIN STICKY NAVIGATION -->
+    <header class="sticky top-0 z-40 glass-header transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Mark / Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-none bg-apex-neon flex items-center justify-center transform -skew-x-12 group-hover:skew-x-0 transition-transform duration-300 shadow-[0_0_20px_rgba(0,255,135,0.4)]">
+                        <i class="fa-solid fa-caret-up text-slate-950 text-2xl transform skew-x-12 group-hover:skew-x-0"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-display text-2xl sm:text-3xl font-black tracking-tighter text-white uppercase leading-none">
+                            APEX<span class="text-apex-neon">.</span>
+                        </span>
+                        <span class="text-[9px] font-bold tracking-[0.3em] text-slate-400 uppercase -mt-0.5">ATHLETICS</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-8 font-display text-sm font-bold tracking-wider uppercase text-slate-300">
+                    <a href="#hero" class="hover:text-apex-neon transition-colors">Home</a>
+                    <a href="#showcase" class="hover:text-apex-neon transition-colors">Catalog Showcase</a>
+                    <a href="#tech" class="hover:text-apex-neon transition-colors">Fabric Specs</a>
+                    <a href="#brand" class="hover:text-apex-neon transition-colors">Philosophy</a>
+                    <a href="#store" class="hover:text-apex-neon transition-colors">Showrooms</a>
+                </nav>
+
+                <!-- Search & VIP Inquiry Trigger -->
+                <div class="hidden sm:flex items-center gap-4">
+                    <div class="relative">
+                        <input type="text" id="desktopSearch" oninput="handleSearch(this.value)" placeholder="Search performance gear..." class="bg-apex-card text-xs text-slate-200 placeholder-slate-500 rounded-none border border-apex-border py-2.5 pl-9 pr-4 focus:outline-none focus:border-apex-neon w-40 focus:w-56 transition-all">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-500 text-xs"></i>
+                    </div>
+                    <a href="#contact" class="bg-apex-neon text-slate-950 font-display font-extrabold text-xs uppercase tracking-wider px-5 py-2.5 rounded-none hover:bg-apex-cyan transition-colors flex items-center gap-2">
+                        <i class="fa-regular fa-paper-plane"></i> VIP Inquiry
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Toggle Button -->
+                <div class="flex items-center gap-2 lg:hidden">
+                    <button onclick="toggleMobileMenu()" class="p-2.5 bg-apex-card border border-apex-border text-slate-200 hover:text-apex-neon">
+                        <i class="fa-solid fa-bars text-xl" id="menuToggleIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-apex-black/95 border-b border-apex-border px-6 py-6 transition-all">
+            <div class="mb-5">
+                <div class="relative">
+                    <input type="text" id="mobileSearch" oninput="handleSearch(this.value)" placeholder="Search catalog..." class="w-full bg-apex-card text-xs text-slate-200 placeholder-slate-500 border border-apex-border py-3 pl-10 pr-4 focus:outline-none focus:border-apex-neon">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-500 text-xs"></i>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-4 font-display font-bold uppercase tracking-wider text-slate-300 text-sm">
+                <a href="#hero" onclick="toggleMobileMenu()" class="hover:text-apex-neon">Home</a>
+                <a href="#showcase" onclick="toggleMobileMenu()" class="hover:text-apex-neon">Catalog Showcase</a>
+                <a href="#tech" onclick="toggleMobileMenu()" class="hover:text-apex-neon">Fabric Specs</a>
+                <a href="#brand" onclick="toggleMobileMenu()" class="hover:text-apex-neon">Philosophy</a>
+                <a href="#store" onclick="toggleMobileMenu()" class="hover:text-apex-neon">Showrooms</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="mt-2 bg-apex-neon text-slate-950 text-center py-3 font-extrabold flex items-center justify-center gap-2">
+                    <i class="fa-regular fa-paper-plane"></i> VIP Inquiry
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative min-h-[85vh] flex items-center justify-center pt-8 pb-16 overflow-hidden bg-tech-grid">
+        <!-- Background Neon Radial Glows -->
+        <div class="absolute top-1/3 left-1/4 w-[30rem] h-[30rem] bg-apex-neon/10 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-[25rem] h-[25rem] bg-apex-cyan/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                
+                <!-- Hero Text Stack -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left reveal-element reveal-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-apex-card border border-apex-border text-apex-neon text-[11px] font-bold uppercase tracking-widest">
+                        <span class="w-1.5 h-1.5 bg-apex-neon animate-ping"></span>
+                        Precision Engineered Activewear
+                    </div>
+
+                    <h1 class="font-display text-5xl sm:text-7xl lg:text-8xl font-black uppercase leading-[0.9] tracking-tight text-white">
+                        PUSH BEYOND <br>
+                        <span class="text-stroke-outline-neon">HUMAN</span> LIMITS
+                    </h1>
+
+                    <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Explore APEX Athletics' physical store catalog. Designed with zero-distraction seamless compression, ultra-vented mesh, and thermoregulating fibers built for maximum output.
+                    </p>
+
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#showcase" class="bg-apex-neon text-slate-950 font-display font-extrabold text-sm uppercase tracking-wider px-8 py-4 hover:bg-apex-cyan transition-all transform hover:scale-105 active:scale-95 flex items-center gap-3 shadow-[0_0_25px_rgba(0,255,135,0.25)]">
+                            EXPLORE CATALOG <i class="fa-solid fa-arrow-down-long"></i>
+                        </a>
+                        <a href="#store" class="bg-apex-card text-white font-display font-bold text-sm uppercase tracking-wider px-8 py-4 border border-apex-border hover:border-apex-neon transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2">
+                            <i class="fa-solid fa-store text-apex-cyan"></i> STORE LOCATOR
+                        </a>
+                    </div>
+
+                    <!-- Tech Callout Badges -->
+                    <div class="pt-8 border-t border-apex-border/80 grid grid-cols-3 gap-3 max-w-lg mx-auto lg:mx-0">
+                        <div class="text-center lg:text-left">
+                            <div class="font-display text-2xl sm:text-3xl font-extrabold text-white">100%</div>
+                            <div class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider">Moisture Wicking</div>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <div class="font-display text-2xl sm:text-3xl font-extrabold text-apex-neon">4-WAY</div>
+                            <div class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider">Elastic Weave</div>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <div class="font-display text-2xl sm:text-3xl font-extrabold text-apex-cyan">ZERO</div>
+                            <div class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider">Friction Seams</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual Feature Box -->
+                <div class="lg:col-span-5 reveal-element reveal-right">
+                    <div class="relative max-w-md mx-auto lg:max-w-none">
+                        <!-- Frame Border Glow -->
+                        <div class="glass-card p-4 sm:p-6 relative border border-apex-border overflow-hidden group tilt-card">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-apex-neon/10 -rotate-45 transform translate-x-12 -translate-y-12"></div>
+                            
+                            <!-- Hero Feature Image -->
+                            <div class="w-full h-80 sm:h-96 bg-slate-900 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" alt="Hero Athlete" class="w-full h-full object-cover object-top filter brightness-90 group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-apex-black via-transparent to-transparent"></div>
+                                <div class="absolute bottom-4 left-4 right-4 text-left">
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-apex-neon bg-slate-950/80 px-2.5 py-1 border border-apex-neon/30 animate-pulse">Pro Concept SS-26</span>
+                                    <h3 class="font-display text-2xl font-black text-white uppercase mt-1">PRO-COMPRESSION SUIT</h3>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 flex items-center justify-between text-xs text-slate-400 border-t border-apex-border pt-3 font-mono">
+                                <span><i class="fa-solid fa-microchip text-apex-neon mr-1"></i> THERMO-MESH</span>
+                                <span><i class="fa-solid fa-shield text-apex-cyan mr-1"></i> UV50+ GUARD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCT CATALOG SHOWCASE -->
+    <section id="showcase" class="py-16 sm:py-24 bg-apex-black border-t border-apex-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Title & Subhead -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 reveal-element">
+                <div>
+                    <div class="text-apex-neon text-xs font-mono uppercase tracking-widest mb-1">
+                        <i class="fa-solid fa-border-all mr-1"></i> DISPLAY CATALOG
+                    </div>
+                    <h2 class="font-display text-3xl sm:text-5xl font-black text-white uppercase tracking-tight">
+                        PRODUCT LINEUP
+                    </h2>
+                </div>
+                <p class="text-slate-400 text-xs sm:text-sm max-w-md mt-2 md:mt-0 font-normal">
+                    Displaying active store inventory. Use categories to filter gear specs or open quick views to inquire directly with our store team.
+                </p>
+            </div>
+
+            <!-- Dynamic Category Switcher Pills -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar reveal-element" id="categoryTabs">
+                <button onclick="filterCategory('all')" class="cat-btn active px-4 py-2 text-xs font-display font-extrabold uppercase tracking-wider bg-apex-neon text-slate-950 whitespace-nowrap transition-all transform hover:scale-105 active:scale-95" data-cat="all">
+                    All Gear
+                </button>
+                <button onclick="filterCategory('menswear')" class="cat-btn px-4 py-2 text-xs font-display font-extrabold uppercase tracking-wider bg-apex-card text-slate-300 border border-apex-border hover:border-apex-neon whitespace-nowrap transition-all transform hover:scale-105 active:scale-95" data-cat="menswear">
+                    Menswear
+                </button>
+                <button onclick="filterCategory('womenswear')" class="cat-btn px-4 py-2 text-xs font-display font-extrabold uppercase tracking-wider bg-apex-card text-slate-300 border border-apex-border hover:border-apex-neon whitespace-nowrap transition-all transform hover:scale-105 active:scale-95" data-cat="womenswear">
+                    Womenswear
+                </button>
+                <button onclick="filterCategory('footwear')" class="cat-btn px-4 py-2 text-xs font-display font-extrabold uppercase tracking-wider bg-apex-card text-slate-300 border border-apex-border hover:border-apex-neon whitespace-nowrap transition-all transform hover:scale-105 active:scale-95" data-cat="footwear">
+                    Footwear
+                </button>
+                <button onclick="filterCategory('accessories')" class="cat-btn px-4 py-2 text-xs font-display font-extrabold uppercase tracking-wider bg-apex-card text-slate-300 border border-apex-border hover:border-apex-neon whitespace-nowrap transition-all transform hover:scale-105 active:scale-95" data-cat="accessories">
+                    Accessories
+                </button>
+                <button onclick="filterCategory('compression')" class="cat-btn px-4 py-2 text-xs font-display font-extrabold uppercase tracking-wider bg-apex-card text-slate-300 border border-apex-border hover:border-apex-neon whitespace-nowrap transition-all transform hover:scale-105 active:scale-95" data-cat="compression">
+                    Compression
+                </button>
+            </div>
+
+            <!-- PRODUCT GRID - STRICTLY 2 COLUMNS ON MOBILE (grid-cols-2) -->
+            <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <!-- Empty Search State -->
+            <div id="noResultsState" class="hidden text-center py-16 px-4 glass-card border border-apex-border mt-6">
+                <i class="fa-solid fa-triangle-exclamation text-4xl text-apex-neon mb-3"></i>
+                <h3 class="font-display text-xl font-bold uppercase text-white">No Matching Products Found</h3>
+                <p class="text-slate-400 text-xs mt-1">Try adjusting your search query or choosing another category filter.</p>
+                <button onclick="filterCategory('all')" class="mt-4 bg-apex-neon text-slate-950 font-display font-bold text-xs uppercase px-4 py-2">
+                    Reset Filter
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FABRIC TECH / INNOVATION FEATURES -->
+    <section id="tech" class="py-16 sm:py-24 bg-apex-card border-t border-apex-border relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-element">
+                <span class="text-apex-cyan text-xs font-mono uppercase tracking-widest"><i class="fa-solid fa-microchip mr-1"></i> FABRIC ENGINEERING</span>
+                <h2 class="font-display text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1">HIGH-OUTPUT TEXTILE TECH</h2>
+                <p class="text-slate-400 text-xs sm:text-sm mt-3">Our materials are stress-tested in extreme athletic condition chambers to guarantee peak longevity and skin comfort.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Tech Card 1 -->
+                <div class="bg-apex-black p-6 sm:p-8 border border-apex-border hover:border-apex-neon transition-all group reveal-element tilt-card">
+                    <div class="w-12 h-12 bg-apex-card border border-apex-border flex items-center justify-center text-apex-neon text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-wind"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white uppercase mb-2">AERO-VENT MATRIX</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Laser-perforated airflow mapping zones strategically placed along sweat hotspots for rapid thermoregulation.</p>
+                </div>
+
+                <!-- Tech Card 2 -->
+                <div class="bg-apex-black p-6 sm:p-8 border border-apex-border hover:border-apex-cyan transition-all group reveal-element tilt-card" style="transition-delay: 150ms;">
+                    <div class="w-12 h-12 bg-apex-card border border-apex-border flex items-center justify-center text-apex-cyan text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white uppercase mb-2">HYPER-WEAVE NYLON</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Ultra-durable, snag-resistant microfiber yarns designed for intense barbell contact, trail abrasion, and repeated wash cycles.</p>
+                </div>
+
+                <!-- Tech Card 3 -->
+                <div class="bg-apex-black p-6 sm:p-8 border border-apex-border hover:border-apex-neon transition-all group reveal-element tilt-card" style="transition-delay: 300ms;">
+                    <div class="w-12 h-12 bg-apex-card border border-apex-border flex items-center justify-center text-apex-neon text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-compress"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold text-white uppercase mb-2">GRADUATED COMPRESSION</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Targeted muscular stabilization that reduces vibration fatigue and improves post-workout vascular recovery.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORE LOCATOR & INQUIRY FORM SECTION -->
+    <section id="store" class="py-16 sm:py-24 bg-apex-black border-t border-apex-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Left: Showroom Info -->
+                <div class="lg:col-span-6 space-y-6 reveal-element reveal-left">
+                    <div>
+                        <span class="text-apex-neon text-xs font-mono uppercase tracking-widest"><i class="fa-solid fa-map-pin mr-1"></i> VISIT OUR SHOWROOMS</span>
+                        <h2 class="font-display text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1">FLAGSHIP OUTLETS</h2>
+                    </div>
+
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        Experience gear fitting, fabric feel, and gait analysis in person at our physical stores. Our athletic advisors are available on-site.
+                    </p>
+
+                    <!-- Store Address Card -->
+                    <div class="glass-card p-6 border border-apex-border space-y-4 tilt-card">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-apex-card border border-apex-neon flex items-center justify-center text-apex-neon shrink-0">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-display text-lg font-bold text-white uppercase">DOWNTOWN APEX LAB STORE</h4>
+                                <p class="text-slate-400 text-xs mt-1">742 Performance Parkway, District 4, Metro Central</p>
+                                <p class="text-xs text-apex-neon font-mono mt-2"><i class="fa-solid fa-clock mr-1"></i> Mon - Sun: 09:00 AM - 09:00 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-apex-border flex flex-wrap gap-4 text-xs font-mono text-slate-300">
+                            <span><i class="fa-solid fa-phone text-apex-cyan mr-1"></i> +1 (800) 555-APEX</span>
+                            <span><i class="fa-solid fa-envelope text-apex-neon mr-1"></i> stores@apexathletics.com</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Inquiry Form -->
+                <div id="contact" class="lg:col-span-6 glass-card p-6 sm:p-8 border border-apex-border reveal-element reveal-right">
+                    <h3 class="font-display text-2xl font-black text-white uppercase mb-1">VIP PRODUCT INQUIRY</h3>
+                    <p class="text-slate-400 text-xs mb-6">Want to check stock availability or hold an item at a local outlet? Drop us a line.</p>
+
+                    <form id="inquiryForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] font-mono text-slate-300 uppercase tracking-wider mb-1">Your Full Name</label>
+                            <input type="text" required placeholder="John Doe" class="w-full bg-apex-black text-xs text-slate-200 border border-apex-border p-3 focus:outline-none focus:border-apex-neon transition-colors">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-mono text-slate-300 uppercase tracking-wider mb-1">Email Address</label>
+                                <input type="email" required placeholder="john@domain.com" class="w-full bg-apex-black text-xs text-slate-200 border border-apex-border p-3 focus:outline-none focus:border-apex-neon transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-mono text-slate-300 uppercase tracking-wider mb-1">Phone Number</label>
+                                <input type="tel" placeholder="+1 (555) 000-0000" class="w-full bg-apex-black text-xs text-slate-200 border border-apex-border p-3 focus:outline-none focus:border-apex-neon transition-colors">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-mono text-slate-300 uppercase tracking-wider mb-1">Inquiry Details / Specific Product</label>
+                            <textarea rows="3" required placeholder="Inquiring regarding sizing availability for Pro-Compression suit..." class="w-full bg-apex-black text-xs text-slate-200 border border-apex-border p-3 focus:outline-none focus:border-apex-neon transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-apex-neon text-slate-950 font-display font-extrabold text-xs uppercase tracking-wider py-3.5 hover:bg-apex-cyan transition-all transform hover:scale-[1.01] active:scale-[0.98] flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-paper-plane"></i> SUBMIT INQUIRY
+                        </button>
+                    </form>
+
+                    <!-- Alert Toast Toast -->
+                    <div id="formSuccessToast" class="hidden mt-4 p-3 bg-emerald-950/80 border border-emerald-500 text-emerald-200 text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-emerald-400"></i> Inquiry submitted! Our store advisors will contact you shortly.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-apex-black border-t border-apex-border py-12 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-apex-neon flex items-center justify-center text-slate-950 font-black">
+                        <i class="fa-solid fa-caret-up"></i>
+                    </div>
+                    <span class="font-display text-xl font-black text-white uppercase tracking-tight">APEX ATHLETICS</span>
+                </div>
+
+                <div class="flex flex-wrap gap-6 font-display font-bold uppercase tracking-wider text-slate-300 text-[11px]">
+                    <a href="#hero" class="hover:text-apex-neon">Home</a>
+                    <a href="#showcase" class="hover:text-apex-neon">Catalog</a>
+                    <a href="#tech" class="hover:text-apex-neon">Specs</a>
+                    <a href="#store" class="hover:text-apex-neon">Stores</a>
+                </div>
+
+                <div class="flex items-center gap-4 text-base">
+                    <a href="#" class="w-8 h-8 rounded-full bg-apex-card border border-apex-border flex items-center justify-center text-slate-400 hover:text-apex-neon hover:border-apex-neon transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-apex-card border border-apex-border flex items-center justify-center text-slate-400 hover:text-apex-neon hover:border-apex-neon transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-apex-card border border-apex-border flex items-center justify-center text-slate-400 hover:text-apex-neon hover:border-apex-neon transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-apex-border/60 text-center text-[10px] text-slate-500 font-mono">
+                © 2026 APEX PERFORMANCE ATHLETICS. ALL RIGHTS RESERVED. SHOWCASE & CATALOG ONLY.
+            </div>
+        </div>
+    </footer>
+
+    <!-- PRODUCT QUICK VIEW MODAL POPUP -->
+    <div id="productModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md transition-opacity duration-300">
+        <div class="relative w-full max-w-2xl bg-apex-card border border-apex-border text-slate-100 overflow-hidden shadow-2xl max-h-[92vh] overflow-y-auto modal-anim">
+            
+            <!-- Close Modal Button -->
+            <button onclick="closeModal()" class="absolute top-3 right-3 z-10 w-8 h-8 bg-apex-black border border-apex-border text-slate-400 hover:text-white hover:border-apex-neon flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2">
+                <!-- Modal Product Image -->
+                <div class="relative h-60 sm:h-auto bg-apex-black min-h-[220px]">
+                    <img id="mImg" src="" alt="Product Detail" class="w-full h-full object-cover">
+                    <span id="mBadge" class="absolute top-3 left-3 text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 bg-apex-neon text-slate-950">
+                        TAG
+                    </span>
+                </div>
+
+                <!-- Modal Content -->
+                <div class="p-5 sm:p-6 space-y-4 flex flex-col justify-between">
+                    <div>
+                        <span id="mCategory" class="text-[10px] font-mono uppercase tracking-widest text-apex-cyan">CATEGORY</span>
+                        <h3 id="mTitle" class="font-display text-xl sm:text-2xl font-extrabold uppercase text-white mt-0.5">Product Title</h3>
+                        <div id="mPrice" class="text-lg font-bold font-mono text-apex-neon mt-1">$00.00</div>
+
+                        <p id="mDesc" class="text-slate-400 text-xs leading-relaxed mt-2">
+                            Product description goes here...
+                        </p>
+
+                        <!-- Color Options -->
+                        <div class="mt-3">
+                            <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1">Color Schemes</label>
+                            <div class="flex gap-2" id="mColors">
+                                <!-- Colors injected JS -->
+                            </div>
+                        </div>
+
+                        <!-- Sizes -->
+                        <div class="mt-3">
+                            <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1">Available Sizes</label>
+                            <div class="flex flex-wrap gap-1.5" id="mSizes">
+                                <!-- Sizes injected JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp / Inquiry Action -->
+                    <div class="pt-3 border-t border-apex-border space-y-2">
+                        <a id="mWhatsApp" href="#" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-display font-extrabold text-xs uppercase py-2.5 px-4 flex items-center justify-center gap-2 transition-colors">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> INQUIRE VIA WHATSAPP
+                        </a>
+                        <a href="#contact" onclick="closeModal()" class="w-full bg-apex-black hover:bg-slate-900 border border-apex-border text-slate-300 font-display font-bold text-xs uppercase py-2 px-4 flex items-center justify-center gap-2 transition-colors">
+                            <i class="fa-regular fa-envelope"></i> STORE INQUIRY FORM
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Static Product Catalog Data
+        const products = [
+            {
+                id: 1,
+                title: "Apex Stealth Tech Tee",
+                category: "menswear",
+                categoryLabel: "Menswear",
+                badge: "Aero-Vent",
+                badgeBg: "bg-apex-neon text-slate-950",
+                price: "$52.00",
+                image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=600&q=80",
+                description: "Ultralight moisture-wicking training tee engineered with laser-cut ventilation micro-pores.",
+                sizes: ["S", "M", "L", "XL", "XXL"],
+                colors: ["bg-slate-900", "bg-emerald-900", "bg-slate-200"]
+            },
+            {
+                id: 2,
+                title: "Vapor Carbon Runner '26",
+                category: "footwear",
+                categoryLabel: "Footwear",
+                badge: "Carbon Plate",
+                badgeBg: "bg-apex-cyan text-slate-950",
+                price: "$195.00",
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
+                description: "Full length rigid carbon propulsion plate encased in high-rebound energy foam.",
+                sizes: ["US 8", "US 9", "US 10", "US 11"],
+                colors: ["bg-red-600", "bg-slate-900", "bg-apex-neon"]
+            },
+            {
+                id: 3,
+                title: "Apex Seamless Compression Leggings",
+                category: "womenswear",
+                categoryLabel: "Womenswear",
+                badge: "Squat Proof",
+                badgeBg: "bg-purple-500 text-white",
+                price: "$68.00",
+                image: "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=600&q=80",
+                description: "High-waisted 4-way elastic compression leggings with zero friction stitch design.",
+                sizes: ["XS", "S", "M", "L"],
+                colors: ["bg-purple-900", "bg-slate-900", "bg-blue-900"]
+            },
+            {
+                id: 4,
+                title: "Tactical Hydration Vest 10L",
+                category: "accessories",
+                categoryLabel: "Accessories",
+                badge: "Trail Spec",
+                badgeBg: "bg-amber-500 text-slate-950",
+                price: "$115.00",
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
+                description: "Ergonomic ultra-light marathon hydration vest with 2x 500ml quick-flask holsters.",
+                sizes: ["S/M", "L/XL"],
+                colors: ["bg-slate-900", "bg-slate-700"]
+            },
+            {
+                id: 5,
+                title: "Graduated Calf Compression Sleeves",
+                category: "compression",
+                categoryLabel: "Compression",
+                badge: "Recovery Pro",
+                badgeBg: "bg-apex-neon text-slate-950",
+                price: "$34.00",
+                image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+                description: "Targeted 20-30 mmHg graduated pressure sleeves designed to reduce calf oscillation.",
+                sizes: ["S", "M", "L"],
+                colors: ["bg-slate-900", "bg-apex-cyan"]
+            },
+            {
+                id: 6,
+                title: "AeroShield Windbreaker Jacket",
+                category: "menswear",
+                categoryLabel: "Menswear",
+                badge: "Weather Guard",
+                badgeBg: "bg-blue-500 text-white",
+                price: "$110.00",
+                image: "https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=600&q=80",
+                description: "Packable windproof and showerproof performance shell jacket with 360-degree reflective strips.",
+                sizes: ["S", "M", "L", "XL"],
+                colors: ["bg-slate-900", "bg-emerald-600"]
+            },
+            {
+                id: 7,
+                title: "HyperDry Support Sports Bra",
+                category: "womenswear",
+                categoryLabel: "Womenswear",
+                badge: "High Impact",
+                badgeBg: "bg-rose-500 text-white",
+                price: "$45.00",
+                image: "https://images.unsplash.com/photo-1506152983158-b4a74a01c721?auto=format&fit=crop&w=600&q=80",
+                description: "High-impact cross-back support bra designed with moisture management lining.",
+                sizes: ["XS", "S", "M", "L"],
+                colors: ["bg-rose-900", "bg-slate-900", "bg-teal-900"]
+            },
+            {
+                id: 8,
+                title: "All-Terrain Trail Cleat",
+                category: "footwear",
+                categoryLabel: "Footwear",
+                badge: "Vibram Sole",
+                badgeBg: "bg-amber-400 text-slate-950",
+                price: "$165.00",
+                image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=600&q=80",
+                description: "Deep-lugged trail running shoe featuring mud-release channel patterns and protective toe guard.",
+                sizes: ["US 8", "US 9", "US 10", "US 11"],
+                colors: ["bg-amber-900", "bg-slate-900"]
+            }
+        ];
+
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let observer = null;
+
+        // Setup Intersection Observer for Scroll Reveals
+        function initScrollReveal() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -50px 0px',
+                threshold: 0.12
+            };
+
+            if (observer) observer.disconnect();
+
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-element').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Render Function for Products (STRICT 2 COLUMNS ON MOBILE)
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            const noResults = document.getElementById('noResultsState');
+            grid.innerHTML = '';
+
+            const filtered = products.filter(p => {
+                const matchCat = (activeCategory === 'all' || p.category === activeCategory);
+                const matchSearch = p.title.toLowerCase().includes(searchQuery) || p.description.toLowerCase().includes(searchQuery) || p.categoryLabel.toLowerCase().includes(searchQuery);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            filtered.forEach((product, idx) => {
+                const card = document.createElement('div');
+                // Strict compact styling, 2 cols on mobile with reveal animations and staggered delay
+                const delay = (idx % 4) * 100;
+                card.className = "bg-apex-card border border-apex-border p-2.5 sm:p-4 transition-all flex flex-col justify-between group reveal-element tilt-card";
+                card.style.transitionDelay = `${delay}ms`;
+
+                card.innerHTML = `
+                    <div>
+                        <!-- Header Badge & Category -->
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-400 truncate max-w-[60%]">${product.categoryLabel}</span>
+                            <span class="text-[8px] sm:text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 ${product.badgeBg} animate-pulse">
+                                ${product.badge}
+                            </span>
+                        </div>
+
+                        <!-- Product Image Compact Square/Ratio -->
+                        <div class="w-full h-28 sm:h-44 bg-apex-black border border-apex-border mb-2 sm:mb-3 overflow-hidden relative">
+                            <img src="${product.image}" alt="${product.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        </div>
+
+                        <!-- Title & Description -->
+                        <h3 class="font-display font-bold text-white text-xs sm:text-sm group-hover:text-apex-neon transition-colors line-clamp-1">${product.title}</h3>
+                        <p class="text-slate-400 text-[10px] sm:text-xs mt-0.5 line-clamp-2 leading-tight hidden xs:block">${product.description}</p>
+                    </div>
+
+                    <!-- Footer: Price & Quick View Button -->
+                    <div class="mt-3 pt-2 border-t border-apex-border flex items-center justify-between">
+                        <div>
+                            <span class="text-[8px] text-slate-500 uppercase font-mono block">MSRP</span>
+                            <span class="text-xs sm:text-sm font-extrabold font-mono text-white">${product.price}</span>
+                        </div>
+                        <button onclick="openModal(${product.id})" class="bg-apex-black hover:bg-apex-neon hover:text-slate-950 text-slate-200 text-[10px] sm:text-xs font-display font-bold px-2 py-1.5 border border-apex-border hover:border-apex-neon transition-all transform hover:scale-105 active:scale-95">
+                            VIEW
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Re-observe newly created product elements
+            if (observer) {
+                document.querySelectorAll('#productGrid .reveal-element').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+        }
+
+        // Category Filter Function
+        function filterCategory(cat) {
+            activeCategory = cat;
+            const btns = document.querySelectorAll('.cat-btn');
+            btns.forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = "cat-btn active px-4 py-2 text-xs font-display font-extrabold uppercase tracking-wider bg-apex-neon text-slate-950 whitespace-nowrap transition-all transform hover:scale-105 active:scale-95";
+                } else {
+                    btn.className = "cat-btn px-4 py-2 text-xs font-display font-extrabold uppercase tracking-wider bg-apex-card text-slate-300 border border-apex-border hover:border-apex-neon whitespace-nowrap transition-all transform hover:scale-105 active:scale-95";
+                }
+            });
+            renderProducts();
+        }
+
+        // Search Input Handling
+        function handleSearch(val) {
+            searchQuery = val.toLowerCase().trim();
+            renderProducts();
+        }
+
+        // Modal Operations
+        function openModal(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            document.getElementById('mTitle').innerText = product.title;
+            document.getElementById('mCategory').innerText = product.categoryLabel;
+            document.getElementById('mPrice').innerText = product.price;
+            document.getElementById('mDesc').innerText = product.description;
+            
+            const badge = document.getElementById('mBadge');
+            badge.innerText = product.badge;
+            badge.className = `absolute top-3 left-3 text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 ${product.badgeBg}`;
+
+            document.getElementById('mImg').src = product.image;
+
+            // Render Sizes
+            const sizesBox = document.getElementById('mSizes');
+            sizesBox.innerHTML = '';
+            product.sizes.forEach(s => {
+                const span = document.createElement('span');
+                span.className = "px-2 py-1 bg-apex-black border border-apex-border text-[10px] font-mono text-slate-300";
+                span.innerText = s;
+                sizesBox.appendChild(span);
+            });
+
+            // Render Colors
+            const colorsBox = document.getElementById('mColors');
+            colorsBox.innerHTML = '';
+            product.colors.forEach(c => {
+                const span = document.createElement('span');
+                span.className = `w-5 h-5 rounded-full ${c} border border-slate-600 inline-block`;
+                colorsBox.appendChild(span);
+            });
+
+            // Set WhatsApp Link
+            const msg = encodeURIComponent(`Hello APEX Athletics, inquiring about product availability for: ${product.title} (${product.price}).`);
+            document.getElementById('mWhatsApp').href = `https://wa.me/15550000000?text=${msg}`;
+
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.add('modal-active');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('modal-active');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 250);
+        }
+
+        // Toggle Mobile Navigation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuToggleIcon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.className = "fa-solid fa-xmark text-xl";
+            } else {
+                menu.classList.add('hidden');
+                icon.className = "fa-solid fa-bars text-xl";
+            }
+        }
+
+        // Form Submit Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const toast = document.getElementById('formSuccessToast');
+            toast.classList.remove('hidden');
+            document.getElementById('inquiryForm').reset();
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Initial Load
+        window.onload = function() {
+            renderProducts();
+            initScrollReveal();
+        };
+    </script>
+</body>
+</html>
